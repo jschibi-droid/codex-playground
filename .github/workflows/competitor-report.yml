@@ -1,0 +1,45 @@
+name: Competitor Report Automation
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 10 * * *" # 06:00 ET (approx.; adjusts with daylight saving)
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  MARKETCHECK_API_KEY: ${{ secrets.MARKETCHECK_API_KEY }}
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip && pip install -r requirements.txt
+
+      - name: Generate competitor markdown reports
+        run: python scripts/competitor_report.py --config config/targets.yml
+
+      - name: Build presentation decks
+        run: python scripts/build_presentation.py --config config/targets.yml
+
+      - name: Create or update pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: codex/auto-competitor-report
+          commit-message: "chore: update competitor analysis outputs"
+          title: "Automated competitor analysis update"
+          body: |
+            Automated competitor report and presentation refresh.
+          add-paths: |
+            reports/**

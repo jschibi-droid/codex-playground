@@ -1,0 +1,12 @@
+{
+  "mcp.servers": {
+    "dealership": {
+      "command": "python",
+      "args": ["mcp_server.py"],
+      "env": {
+        "MARKETCHECK_API_KEY": "${env:MARKETCHECK_API_KEY}"
+      },
+      "workingDirectory": "${workspaceFolder}"
+    }
+  }
+}
