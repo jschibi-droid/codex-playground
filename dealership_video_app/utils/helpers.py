@@ -5,6 +5,8 @@ General helper functions for the application.
 """
 
 import os
+import re
+import uuid
 from datetime import datetime
 from typing import Optional
 
@@ -172,7 +174,6 @@ def extract_numbers(text: str) -> list:
     Returns:
         List of numbers found
     """
-    import re
     pattern = r'\d+(?:\.\d+)?'
     matches = re.findall(pattern, text)
     return [float(m) if '.' in m else int(m) for m in matches]
@@ -185,7 +186,6 @@ def generate_session_id() -> str:
     Returns:
         Session ID string
     """
-    import uuid
     return str(uuid.uuid4())
 
 
@@ -263,7 +263,6 @@ def clean_whitespace(text: str) -> str:
     Returns:
         Cleaned text
     """
-    import re
     # Replace multiple spaces with single space
     text = re.sub(r'\s+', ' ', text)
     # Remove leading/trailing whitespace

@@ -113,10 +113,17 @@ class VideoAnalyzer:
         # video_stream = next((s for s in data['streams'] if s['codec_type'] == 'video'), {})
         # audio_stream = next((s for s in data['streams'] if s['codec_type'] == 'audio'), None)
         # 
+        # def parse_fps(fps_str):
+        #     """Safely parse FPS from fraction string"""
+        #     if '/' in fps_str:
+        #         num, denom = fps_str.split('/')
+        #         return float(num) / float(denom)
+        #     return float(fps_str)
+        # 
         # return {
         #     'duration': float(data['format'].get('duration', 0)),
         #     'resolution': f"{video_stream.get('width')}x{video_stream.get('height')}",
-        #     'fps': eval(video_stream.get('r_frame_rate', '30/1')),
+        #     'fps': parse_fps(video_stream.get('r_frame_rate', '30/1')),
         #     'file_size': int(data['format'].get('size', 0)),
         #     'format': data['format'].get('format_name', 'unknown'),
         #     'has_audio': audio_stream is not None,

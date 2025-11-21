@@ -4,6 +4,7 @@ Conversation Flow Management
 Manages the dialog flow and guides users through the video creation process.
 """
 
+import re
 from typing import Optional, List
 from .context_manager import ConversationContext
 from .intent_classifier import IntentClassifier, VideoIntent
@@ -297,7 +298,6 @@ class ConversationFlow:
                 context.service_package = user_input
             
             # Extract price
-            import re
             price_match = re.search(r'\$?\d+(?:,\d{3})*(?:\.\d{2})?', user_input)
             if price_match and not context.package_price:
                 context.package_price = price_match.group(0)
